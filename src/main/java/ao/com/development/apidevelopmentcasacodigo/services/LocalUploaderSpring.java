@@ -12,6 +12,6 @@ public class LocalUploaderSpring implements Uploader<MultipartFile> {
     public <T extends InputStreamSource> String upload(T file) {
         MultipartFile multipartFile = (MultipartFile) file;
 
-        return "image" + ThreadLocalRandom.current().nextLong() + ".jpg";
+        return "https://cloudinary.com/image" + ThreadLocalRandom.current().nextLong() + ".jpg";
     }
 }
