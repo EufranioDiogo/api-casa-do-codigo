@@ -7,7 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Author {
@@ -19,19 +21,9 @@ public class Author {
     private String about;
     private @PastOrPresent final LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "author")
-    private List<Book> authorBooks;
-
 
     @Deprecated
     public Author() {
-    }
-
-    public Author(@NotBlank String name, @NotBlank @URL String githubLink, String about, List<Book> authorBooks) {
-        this.name = name;
-        this.githubLink = githubLink;
-        this.about = about;
-        this.authorBooks = authorBooks;
     }
 
     public Author(@NotBlank String name, @NotBlank @URL String githubLink, String about) {
@@ -42,5 +34,41 @@ public class Author {
     public Author(@NotBlank String name, @NotBlank @URL String githubLink) {
         this.name = name;
         this.githubLink = githubLink;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPkAuthor() {
+        return pkAuthor;
+    }
+
+    public void setPkAuthor(Long pkAuthor) {
+        this.pkAuthor = pkAuthor;
+    }
+
+    public String getGithubLink() {
+        return githubLink;
+    }
+
+    public void setGithubLink(String githubLink) {
+        this.githubLink = githubLink;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
