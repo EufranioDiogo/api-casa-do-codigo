@@ -5,7 +5,7 @@ import org.springframework.validation.Validator;
 
 import java.util.Optional;
 
-public class UniqueBookTitle implements Validator {
+public class UniqueBookTitle extends UniqueFieldBookValidator {
     private BookRepository bookRepository;
 
     public UniqueBookTitle(BookRepository bookRepository) {
@@ -13,19 +13,16 @@ public class UniqueBookTitle implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
-        return BookForm.class.isAssignableFrom(clazz);
+    public Optional<Book> searchBook(BookForm bookForm) {
+        String titleOfBook = bookForm.getTitle();
+
+        Optional<Book> bookRetrieved = bookRepository.findByTitle(titleOfBook);
+
+        return bookRetrieved;
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        BookForm bookForm = (BookForm) target;
-        String bookTitle = bookForm.getTitle();
-
-        Optional<Book> bookRetrieved = bookRepository.findByTitle(bookTitle);
-
-        if (bookRetrieved.isPresent()) {
-            errors.rejectValue("title", null, "Já existe um livro com esse titulo");
-        }
+    protected String getFieldName() {
+        return "isbn";
     }
 }
