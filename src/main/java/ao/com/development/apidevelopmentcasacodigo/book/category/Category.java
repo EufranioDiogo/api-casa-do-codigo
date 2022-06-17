@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long pkCategory;
     @Column(unique = true)
     private @NotBlank String name;
     private @PastOrPresent final LocalDateTime createdAt = LocalDateTime.now();
