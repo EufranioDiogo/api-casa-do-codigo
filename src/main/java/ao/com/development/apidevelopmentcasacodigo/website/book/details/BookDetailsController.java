@@ -52,4 +52,15 @@ public class BookDetailsController {
 
         return cart;
     }
+
+    @DeleteMapping(value = "/api/site/cart/{id}")
+    public Cart removeBookToCart(@PathVariable(value = "id") Long bookId, @CookieValue("cart") Optional<String> jsonCart, HttpServletResponse response) {
+        Cart cart = Cart.generate(jsonCart);
+
+        cart.removeBook(bookId);
+
+        cookies.writeToWithJSON("paramName", cart, response);
+
+        return cart;
+    }
 }

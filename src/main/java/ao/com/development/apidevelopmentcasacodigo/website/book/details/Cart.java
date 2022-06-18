@@ -20,7 +20,12 @@ public class Cart {
 
 
     private void addBookForCart(BookForCart bookForCart) {
-        this.booksOnCart.add(bookForCart);
+        boolean isBookNotInserted = this.booksOnCart.add(bookForCart);
+
+        if (!isBookNotInserted) {
+            BookForCart bookForCart1 = this.booksOnCart.stream().filter(book -> book.equals(bookForCart)).findFirst().get();
+            bookForCart1.increment();
+        }
     }
 
     public NavigableSet<BookForCart> getBooksOnCart() {
@@ -55,5 +60,12 @@ public class Cart {
         book.orElseThrow();
 
         this.addBookForCart(new BookForCart(book.get()));
+    }
+
+    public boolean removeBook(Long bookId) {
+        BookForCart bookForCart = new BookForCart();
+        bookForCart.setBookId(bookId);
+
+        return this.booksOnCart.remove(bookForCart);
     }
 }
