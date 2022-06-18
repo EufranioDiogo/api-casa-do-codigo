@@ -13,6 +13,7 @@ public class BookDetail {
     private final Long bookPages;
     private final String isb;
     private final AuthorForBookDetail authorForBookDetail;
+    private final String originalTopicsHTML;
 
     public BookDetail(Book book) {
         this.bookId = book.getPkBook();
@@ -20,6 +21,7 @@ public class BookDetail {
         this.price = book.getBookPrice();
         this.content = book.getContent();
         this.originalTopicsMarkDown = book.getSummary();
+        this.originalTopicsHTML = Markdown.toHtml(this.originalTopicsMarkDown);
         this.bookPages = book.getNumberOfPages();
         this.isb = book.getIsbn();
         this.authorForBookDetail = new AuthorForBookDetail(book.getAuthor());
@@ -55,5 +57,9 @@ public class BookDetail {
 
     public AuthorForBookDetail getAuthorForBookDetail() {
         return authorForBookDetail;
+    }
+
+    public String getOriginalTopicsHTML() {
+        return originalTopicsHTML;
     }
 }
