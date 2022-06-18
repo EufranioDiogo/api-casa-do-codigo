@@ -1,9 +1,9 @@
-package ao.com.development.apidevelopmentcasacodigo.website.book.details;
+package ao.com.development.apidevelopmentcasacodigo.website.cart;
 
 import ao.com.development.apidevelopmentcasacodigo.book.Book;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.util.Assert;
 
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -50,6 +50,10 @@ public class BookForCart implements Comparable<BookForCart> {
         return quantity;
     }
 
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
+    }
+
     public BigDecimal getTotal() {
         return this.bookPrice.multiply(BigDecimal.valueOf(this.quantity));
     }
@@ -80,5 +84,11 @@ public class BookForCart implements Comparable<BookForCart> {
         }
 
         this.quantity++;
+    }
+
+    public void decrease(Long quantityToDecrease) {
+        Assert.isTrue(quantityToDecrease <= this.quantity, "The quantity that you want to reduce " +
+                "must be equal or less than actual quantity");
+        this.quantity -= quantityToDecrease;
     }
 }
