@@ -1,4 +1,4 @@
-package ao.com.development.apidevelopmentcasacodigo.website.book.details;
+package ao.com.development.apidevelopmentcasacodigo.shared.configuration;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;

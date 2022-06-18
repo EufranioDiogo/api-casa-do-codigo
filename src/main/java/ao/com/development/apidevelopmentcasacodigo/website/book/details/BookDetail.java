@@ -1,11 +1,13 @@
 package ao.com.development.apidevelopmentcasacodigo.website.book.details;
 
 import ao.com.development.apidevelopmentcasacodigo.book.Book;
+import ao.com.development.apidevelopmentcasacodigo.shared.configuration.Markdown;
 
 import java.math.BigDecimal;
 
 public class BookDetail {
     private final Long bookId;
+    private final String title;
     private final String coverImage;
     private final BigDecimal price;
     private final String content;
@@ -17,6 +19,7 @@ public class BookDetail {
 
     public BookDetail(Book book) {
         this.bookId = book.getPkBook();
+        this.title = book.getTitle();
         this.coverImage = book.getCoverImageLink();
         this.price = book.getBookPrice();
         this.content = book.getContent();
@@ -27,8 +30,13 @@ public class BookDetail {
         this.authorForBookDetail = new AuthorForBookDetail(book.getAuthor());
     }
 
+
     public Long getBookId() {
         return bookId;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getCoverImage() {
