@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cart {
@@ -102,5 +103,13 @@ public class Cart {
             return;
         }
         bookForCart.decrease(quantity);
+    }
+
+    public Set<BuyItem> generateBuyItens(BookRepository bookRepository) {
+        return this.booksOnCart
+                .stream()
+                .map(item -> item.generateBuyItem(bookRepository))
+                .collect(Collectors.toSet());
+
     }
 }

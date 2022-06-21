@@ -1,6 +1,7 @@
 package ao.com.development.apidevelopmentcasacodigo.website.cart;
 
 import ao.com.development.apidevelopmentcasacodigo.book.Book;
+import ao.com.development.apidevelopmentcasacodigo.book.BookRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.Assert;
 
@@ -90,5 +91,9 @@ public class BookForCart implements Comparable<BookForCart> {
         Assert.isTrue(quantityToDecrease <= this.quantity, "The quantity that you want to reduce " +
                 "must be equal or less than actual quantity");
         this.quantity -= quantityToDecrease;
+    }
+    public BuyItem generateBuyItem(BookRepository bookRepository) {
+        Book book = bookRepository.findByPkBook(this.bookId).get();
+        return new BuyItem(book, this.bookTitle, this.bookPrice, this.quantity, this.getTotal());
     }
 }
