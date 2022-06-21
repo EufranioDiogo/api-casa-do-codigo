@@ -15,6 +15,7 @@ public class Cookies {
         try {
             newCartCookie = new Cookie("cart", new ObjectMapper().writeValueAsString(cart));
             newCartCookie.setHttpOnly(true);
+            newCartCookie.setPath("/");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
