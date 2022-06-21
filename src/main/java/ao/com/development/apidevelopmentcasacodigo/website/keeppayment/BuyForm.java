@@ -1,15 +1,13 @@
 package ao.com.development.apidevelopmentcasacodigo.website.keeppayment;
 
 import ao.com.development.apidevelopmentcasacodigo.cupom.Cupom;
-import ao.com.development.apidevelopmentcasacodigo.website.cart.BuyItem;
-import org.hibernate.validator.constraints.br.CPF;
+import ao.com.development.apidevelopmentcasacodigo.cupom.CupomRepository;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Optional;
-import java.util.Set;
 
-public class BuyerData {
+public class BuyForm {
     @NotBlank
     @Email
     private String email;
@@ -20,16 +18,18 @@ public class BuyerData {
     private String document;
     @NotBlank
     private String address;
+    private String cupomCode;
 
-    public BuyerData() {
+    public BuyForm() {
     }
 
-    public BuyerData(String email, String firstName, String lastName, String document, String address) {
+    public BuyForm(String email, String firstName, String lastName, String document, String address, String cupomCode) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.document = document;
         this.address = address;
+        this.cupomCode = cupomCode;
     }
 
     public String getEmail() {
@@ -72,9 +72,22 @@ public class BuyerData {
         this.address = address;
     }
 
-    public Buy newBuy(Set<BuyItem> buyItems, Optional<Cupom> cupom) {
-        Cupom resultCupom = cupom.isEmpty() ? null : cupom.get();
+    public String getCupomCode() {
+        return cupomCode;
+    }
 
-        return new Buy(this.email, this.document, this.address, buyItems, resultCupom);
+    public void setCupomCode(String cupomCode) {
+        this.cupomCode = cupomCode;
+    }
+
+    public BuyerData buildBuyerData() {
+        return new BuyerData(email, firstName, lastName, document, address);
+    }
+
+    public Optional<Cupom> getCupom(CupomRepository cupomRepository) {
+        if (cupomCode != null) {
+            return cupomRepository.findByCode(cupomCode);
+        }
+        return Optional.empty();
     }
 }

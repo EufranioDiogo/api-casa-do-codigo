@@ -1,5 +1,6 @@
 package ao.com.development.apidevelopmentcasacodigo.website.keeppayment;
 
+import ao.com.development.apidevelopmentcasacodigo.cupom.Cupom;
 import ao.com.development.apidevelopmentcasacodigo.website.cart.BuyItem;
 
 import javax.persistence.*;
@@ -23,6 +24,11 @@ public class Buy {
     @ElementCollection
     private Set<BuyItem> buyItens = new HashSet<>();
     private LocalDateTime relizedDate = LocalDateTime.now();
+    @ManyToOne
+    private Cupom cupom;
+
+    public Buy() {
+    }
 
     public Long getId() {
         return id;
@@ -32,21 +38,24 @@ public class Buy {
         this.id = id;
     }
 
-    public Buy(@NotBlank @Email String email, @NotBlank String document, @NotBlank String address, @Size(min = 1) Set<BuyItem> buyItems) {
+    public Buy(@NotBlank @Email String email, @NotBlank String document, @NotBlank String address, @Size(min = 1) Set<BuyItem> buyItems, Cupom cupom) {
         this.email = email;
         this.document = document;
         this.address = address;
         this.buyItens.addAll(buyItems);
+        this.cupom = cupom;
     }
 
     @Override
     public String toString() {
         return "Buy{" +
-                "email='" + email + '\'' +
+                "id=" + id +
+                ", email='" + email + '\'' +
                 ", document='" + document + '\'' +
                 ", address='" + address + '\'' +
                 ", buyItens=" + buyItens +
                 ", relizedDate=" + relizedDate +
+                ", cupom=" + cupom +
                 '}';
     }
 }

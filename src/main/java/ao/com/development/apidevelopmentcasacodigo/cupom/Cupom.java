@@ -69,6 +69,10 @@ public class Cupom {
         this.discountPercentage = discountPercentage;
     }
 
+    public boolean isValid() {
+        return LocalDateTime.now().isBefore(this.expiresAt);
+    }
+
     @Override
     public String toString() {
         return "Cupom{" +

@@ -13,6 +13,7 @@ public class BookForCart implements Comparable<BookForCart> {
     private String bookCoverImage;
     private String bookTitle;
     private BigDecimal bookPrice;
+    private BigDecimal saledPrice;
     private Long quantity = 1L;
 
     public BookForCart() {
@@ -24,6 +25,7 @@ public class BookForCart implements Comparable<BookForCart> {
         this.bookCoverImage = book.getCoverImageLink();
         this.bookTitle = book.getTitle();
         this.bookPrice = book.getBookPrice();
+        this.saledPrice = bookPrice;
         this.quantity = 1L;
     }
 
@@ -57,6 +59,18 @@ public class BookForCart implements Comparable<BookForCart> {
 
     public BigDecimal getTotal() {
         return this.bookPrice.multiply(BigDecimal.valueOf(this.quantity));
+    }
+
+    public void setBookPrice(BigDecimal bookPrice) {
+        this.bookPrice = bookPrice;
+    }
+
+    public BigDecimal getSaledPrice() {
+        return saledPrice;
+    }
+
+    public void setSaledPrice(BigDecimal saledPrice) {
+        this.saledPrice = saledPrice;
     }
 
     @Override
@@ -94,6 +108,6 @@ public class BookForCart implements Comparable<BookForCart> {
     }
     public BuyItem generateBuyItem(BookRepository bookRepository) {
         Book book = bookRepository.findByPkBook(this.bookId).get();
-        return new BuyItem(book, this.bookTitle, this.bookPrice, this.quantity, this.getTotal());
+        return new BuyItem(book, this.bookTitle, this.bookPrice, this.quantity, this.getTotal(), this.saledPrice);
     }
 }

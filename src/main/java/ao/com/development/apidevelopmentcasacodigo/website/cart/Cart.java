@@ -3,6 +3,7 @@ package ao.com.development.apidevelopmentcasacodigo.website.cart;
 
 import ao.com.development.apidevelopmentcasacodigo.book.Book;
 import ao.com.development.apidevelopmentcasacodigo.book.BookRepository;
+import ao.com.development.apidevelopmentcasacodigo.cupom.Cupom;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,10 +106,24 @@ public class Cart {
         bookForCart.decrease(quantity);
     }
 
-    public Set<BuyItem> generateBuyItens(BookRepository bookRepository) {
+    public Set<BuyItem> generateBuyItens(BookRepository bookRepository, Optional<Cupom> cupom) {
+        BigDecimal discountedPercentage = new BigDecimal(0);
+
+        if (!cupom.isEmpty() && cupom.get().isValid()) {
+            discountedPercentage = cupom.get().getDiscountPercentage();
+        }
+
+
+        BigDecimal finalDiscountedPercentage = discountedPercentage.divide(new BigDecimal(100));
+
         return this.booksOnCart
                 .stream()
-                .map(item -> item.generateBuyItem(bookRepository))
+                .map(item -> {
+                    BigDecimal discountAmount = item.getBookPrice().multiply(finalDiscountedPercentage);
+                    item.setSaledPrice(item.getBookPrice().subtract(discountAmount));
+
+                    return item.generateBuyItem(bookRepository);
+                })
                 .collect(Collectors.toSet());
 
     }

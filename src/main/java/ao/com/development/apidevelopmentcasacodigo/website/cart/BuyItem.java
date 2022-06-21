@@ -13,15 +13,17 @@ public class BuyItem {
     private Book book;
     private String title;
     private BigDecimal price;
+    private BigDecimal saledPrice;
     private Long quantity;
     private BigDecimal total;
 
-    public BuyItem(Book book, String title , BigDecimal bookPrice, Long quantity, BigDecimal total) {
+    public BuyItem(Book book, String title , BigDecimal bookPrice, Long quantity, BigDecimal total, BigDecimal saledPrice) {
         this.book = book;
         this.title = title;
         this.price = bookPrice;
         this.quantity = quantity;
         this.total = total;
+        this.saledPrice = saledPrice;
     }
 
     public BuyItem() {
@@ -66,6 +68,14 @@ public class BuyItem {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public BigDecimal getSaledPrice() {
+        return saledPrice;
+    }
+
+    public void setSaledPrice(BigDecimal saledPrice) {
+        this.saledPrice = saledPrice;
     }
 
     @Override
